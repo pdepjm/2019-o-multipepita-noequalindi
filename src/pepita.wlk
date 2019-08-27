@@ -13,10 +13,10 @@ object pepita {
 	}
 
 	method come(comida) {
-		energia = energia + comida.energiaQueOtorga()
+		energia += comida.energiaQueOtorga()
 	}
-	method estaFeliz(ener){
-		return ener > 500 && ener < 1000
+	method estaFeliz(){
+		return energia > 500 && energia < 1000
 	}
 	method cantoQuiereVolar(ener) {
 		var quiereVolar = ener/5
@@ -30,42 +30,68 @@ object pepita {
 		}
 	}
 	method salirAComer() {
-		self.vola(5)
-		self.come(alpiste)
-		self.vola(5)
+		pepita.vola(5)
+		pepita.come(alpiste)
+		pepita.vola(5)
 	}
+	method haceLoQueQuieras() {
+		var cansada = pepita.estaCansada()
+		var feliz = pepita.estaFeliz()
+		if(cansada) {
+			pepita.come(alpiste)
+		}
+		if(feliz) {
+			pepita.vola(8)
+		}
+		return energia
+	}
+
 }
 
 object mijo {
 	var esMojado = true
-	var cambioEnergia = self.energiaQueOtorga()
+	var energia = mijo.energiaQueOtorga()
 	var incrementar = 5
-	
 	method mojarse(){ 
-		 return cambioEnergia	
+		 return energia	
 	}
 	method secarse() {
 		esMojado = false
-		return cambioEnergia+=incrementar
+		energia += incrementar 
+		return energia
 	}
 	method energiaQueOtorga() { 
 		return 15
 	}	
 }
 object canelones {
-	var adicional = true
-	
+	var energia = canelones.energiaQueOtorga()
+	var valorSalsa = 5
+	var valorQueso = 7
+
 	method ponerAdicional(adicional) {
 		if (adicional == "salsa")
 		{
-		if(!adicional) {
-		adicional = true
-	 } 
+		  energia += valorSalsa
+	 	} 
+	 	if (adicional == "queso") { 
+	 		energia += valorQueso
+	 	}
+	 	return energia
 	 }
-	}
+	
 	method sacarAdicional(adicional) {
-		if (adicional) { adicional = false }
+		if (adicional == "salsa") {
+			energia -= valorSalsa
+		}
+		if (adicional == "queso") { 
+			energia -= valorQueso
+		}
+		return energia
 	}
+    method energiaQueOtorga() {
+	return 20
+	}	
 }
 object alpiste {
 	var gramos = 10
@@ -83,4 +109,12 @@ object manzana {
 	method energiaQueOtorga() { 
 		return 50
 	}	
+}
+object roque {
+	method entrenar() {
+		pepita.vola(10)
+		pepita.come(alpiste)
+		pepita.vola(5)
+		pepita.haceLoQueQuieras()
+	}
 }
